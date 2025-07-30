@@ -45,6 +45,9 @@ int main()
             printf("child 2 is running .....\n");
             printf("child 2 pid : %d \n",getpid());
             printf("parent pid (in child 2) : %d \n",getppid());
+            sleep(3);
+            printf("child 2 (pid : %d) after parent exit ,parent id (pid : % d)\n",getpid(),getppid());
+            
         }
         else{
             printf("parent 2 is running....\n");
