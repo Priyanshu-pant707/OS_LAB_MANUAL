@@ -17,16 +17,15 @@ int main(){
         return 1;
     }
     else if(p_id==0){
-        printf("running child process \n");
-        printf("child p_id  :%d \n",getpid());
-        printf("parent p_id  :%d \n",getppid());
+       printf("i am child process.... \n");
 
 
     }
     else{
-        printf("running parent process \n");
-        printf("parent p_id :%d \n",getpid());
-        printf("child id : %d \n",p_id);
+       printf("i am parent process ...\n");
+
     }
     return 0;
 }
+
+
