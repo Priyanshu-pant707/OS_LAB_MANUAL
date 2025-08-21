@@ -4,6 +4,7 @@
 
 struct process_struct
 {
+    int pid;
     int at;   // Arrival Time
     int bt;   // Burst Time
     int priority;
@@ -19,33 +20,26 @@ int main()
     int completed = 0;
     float sum_tat = 0, sum_wt = 0, sum_rt = 0;
 
+    printf("Enter total number of processes: ");
     scanf("%d", &n);
 
-    // Arrival Times
+    // 🔹 Input in single loop
     for (int i = 0; i < n; i++)
     {
-        scanf("%d", &ps[i].at);
-    }
-
-    // Burst Times
-    for (int i = 0; i < n; i++)
-    {
-        scanf("%d", &ps[i].bt);
+        ps[i].pid = i + 1;
+        printf("\nEnter AT, BT and Priority for Process %d: ", i + 1);
+        scanf("%d %d %d", &ps[i].at, &ps[i].bt, &ps[i].priority);
         bt_remaining[i] = ps[i].bt;
     }
 
-    // Priorities
-    for (int i = 0; i < n; i++)
-    {
-        scanf("%d", &ps[i].priority);
-    }
+    printf("\n--- Execution Log ---\n");
 
     while (completed != n)
     {
-        // Find process with maximum priority in ready queue at current time
         int max_index = -1;
         int maximum = INT_MIN;
 
+        // 🔹 Find process with highest priority
         for (int i = 0; i < n; i++)
         {
             if (ps[i].at <= current_time && is_completed[i] == false)
@@ -55,7 +49,7 @@ int main()
                     maximum = ps[i].priority;
                     max_index = i;
                 }
-                if (ps[i].priority == maximum)
+                else if (ps[i].priority == maximum)
                 {
                     if (ps[i].at < ps[max_index].at)
                     {
@@ -94,21 +88,24 @@ int main()
                 completed++;
                 is_completed[max_index] = true;
 
-                printf("Process completed at time = %d\n", ps[max_index].ct);
+                printf("P%d finished at time %d\n", ps[max_index].pid, ps[max_index].ct);
             }
         }
     }
 
-    // Print Completion Times
-    printf("\nCompletion Times: ");
+    // 🔹 Final Table
+    printf("\nPID\tAT\tBT\tPR\tST\tCT\tTAT\tWT\tRT\n");
     for (int i = 0; i < n; i++)
     {
-        printf("%d ", ps[i].ct);
+        printf("P%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n",
+               ps[i].pid, ps[i].at, ps[i].bt, ps[i].priority,
+               ps[i].start_time, ps[i].ct, ps[i].tat, ps[i].wt, ps[i].rt);
     }
 
+    // 🔹 Final Averages
     printf("\nAverage Turnaround Time = %.2f", sum_tat / n);
     printf("\nAverage Waiting Time    = %.2f", sum_wt / n);
-    printf("\nAverage Response Time   = %.2f", sum_rt / n);
+    printf("\nAverage Response Time   = %.2f\n", sum_rt / n);
 
     return 0;
 }

@@ -4,70 +4,52 @@
 
 struct process_struct
 {
+    int pid;
     int at;      // Arrival Time
     int bt;      // Burst Time
     int priority;
     int ct, wt, tat, rt, start_time;
 } ps[100];
 
-int findmax(int a, int b)
-{
-    return a > b ? a : b;
-}
-
-int findmin(int a, int b)
-{
-    return a < b ? a : b;
-}
+int findmax(int a, int b) { return a > b ? a : b; }
+int findmin(int a, int b) { return a < b ? a : b; }
 
 int main()
 {
     int n;
     bool is_completed[100] = {false}, is_first_process = true;
-    int current_time = 0;
-    int completed = 0;
-    int total_idle_time = 0, prev = 0, length_cycle;
+    int current_time = 0, completed = 0, total_idle_time = 0, prev = 0, length_cycle;
     float cpu_utilization;
     int max_completion_time, min_arrival_time;
-
-    scanf("%d", &n);
-
     float sum_tat = 0, sum_wt = 0, sum_rt = 0;
 
-    // Arrival Times
-    for (int i = 0; i < n; i++)
-    {
-        scanf("%d", &ps[i].at);
-    }
+    printf("Enter total number of processes: ");
+    scanf("%d", &n);
 
-    // Burst Times
+    // 🔹 Input ek hi loop me
     for (int i = 0; i < n; i++)
     {
-        scanf("%d", &ps[i].bt);
-    }
-
-    // Priorities
-    for (int i = 0; i < n; i++)
-    {
-        scanf("%d", &ps[i].priority);
+        ps[i].pid = i + 1;
+        printf("\nEnter AT, BT and Priority for Process %d: ", i + 1);
+        scanf("%d %d %d", &ps[i].at, &ps[i].bt, &ps[i].priority);
     }
 
     while (completed != n)
     {
-        // Find process with maximum priority in ready queue at current time
         int max_index = -1;
         int maximum = INT_MIN;
 
+        // 🔹 Find process with highest priority
         for (int i = 0; i < n; i++)
         {
-            if (ps[i].at <= current_time && is_completed[i] == 0)
+            if (ps[i].at <= current_time && is_completed[i] == false)
             {
                 if (ps[i].priority > maximum)
                 {
                     maximum = ps[i].priority;
                     max_index = i;
                 }
-                if (ps[i].priority == maximum)
+                else if (ps[i].priority == maximum)
                 {
                     if (ps[i].at < ps[max_index].at)
                     {
@@ -104,7 +86,7 @@ int main()
         }
     }
 
-    // Calculate Length of Process completion cycle
+    // 🔹 Calculate Length of Process completion cycle
     max_completion_time = INT_MIN;
     min_arrival_time = INT_MAX;
 
@@ -117,24 +99,20 @@ int main()
     length_cycle = max_completion_time - min_arrival_time;
     cpu_utilization = (float)(length_cycle - total_idle_time) / length_cycle;
 
-    // Start times
+    // 🔹 Final Output Table
+    printf("\nPID\tAT\tBT\tPR\tCT\tTAT\tWT\tRT\n");
     for (int i = 0; i < n; i++)
     {
-        printf("%d ", ps[i].start_time);
-    }
-    printf("\n");
-
-    // Completion times
-    for (int i = 0; i < n; i++)
-    {
-        printf("%d ", ps[i].ct);
+        printf("P%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n",
+               ps[i].pid, ps[i].at, ps[i].bt, ps[i].priority,
+               ps[i].ct, ps[i].tat, ps[i].wt, ps[i].rt);
     }
 
-    printf("\n%.2f", sum_tat / n);
-    printf("\n%.2f", sum_wt / n);
-    printf("\n%.2f", sum_rt / n);
-    printf("\n%.2f", n / (float)length_cycle);
-    printf("\n%.2f", cpu_utilization * 100);
+    printf("\nAverage Turn Around Time = %.2f", sum_tat / n);
+    printf("\nAverage Waiting Time     = %.2f", sum_wt / n);
+    printf("\nAverage Response Time    = %.2f", sum_rt / n);
+    printf("\nThroughput               = %.2f", n / (float)length_cycle);
+    printf("\nCPU Utilization (%%)      = %.2f\n", cpu_utilization * 100);
 
     return 0;
 }
