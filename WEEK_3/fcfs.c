@@ -53,7 +53,7 @@ int main() {
 
         p[i].tat = p[i].ct - p[i].at;
         p[i].wt = p[i].tat - p[i].bt;
-        p[i].rt = p[i].wt;  // Response time in FCFS = waiting time
+        p[i].rt = p[i].wt;  
 
         sbt += p[i].bt;
         swt += p[i].wt;
