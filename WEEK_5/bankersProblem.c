@@ -1,3 +1,4 @@
+//banker's problem
 #include <stdio.h>
 struct Process
 {
