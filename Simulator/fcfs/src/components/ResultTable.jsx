@@ -24,7 +24,7 @@ export default function ResultTable({ result }) {
         <tbody>
           {result.map((p, i) => (
             <tr key={i}>
-              <td className="border border-gray-600 p-2">{p.pid}</td>
+              <td className="border border-gray-600  p-2">{p.pid}</td>
               <td className="border border-gray-600 p-2">{p.at}</td>
               <td className="border border-gray-600 p-2">{p.bt}</td>
               <td className="border border-gray-600 p-2">{p.ct}</td>

@@ -16,27 +16,27 @@ export default function ProcessForm({ onAdd }) {
   return (
     <div className="flex gap-2 my-4">
       <input
-        className="p-2 rounded bg-gray-800 text-white"
+        className="p-2 rounded bg-red-900 text-white"
         placeholder="PID"
         value={pid}
         onChange={(e) => setPid(e.target.value)}
       />
       <input
-        className="p-2 rounded bg-gray-800 text-white"
+        className="p-2 rounded bg-red-900 text-white"
         type="number"
         placeholder="Arrival Time"
         value={at}
         onChange={(e) => setAt(e.target.value)}
       />
       <input
-        className="p-2 rounded bg-gray-800 text-white"
+        className="p-2 rounded bg-red-900 text-white"
         type="number"
         placeholder="Burst Time"
         value={bt}
         onChange={(e) => setBt(e.target.value)}
       />
       <button
-        className="px-4 py-2 bg-green-500 rounded hover:bg-green-600"
+        className="px-4 py-2 text-black font-bold bg-yellow-500 rounded hover:bg-yellow-600"
         onClick={handleAdd}
       >
         Add
