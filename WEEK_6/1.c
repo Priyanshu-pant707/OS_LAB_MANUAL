@@ -14,5 +14,6 @@ int main(){
     write(p[1],writing[0],sizeof(writing[0]));
     read(p[0],readmsg,sizeof(readmsg));
     printf("\n Reading from pipe-msg 1 %s\n",readmsg);
+    
     return 0;
 }
