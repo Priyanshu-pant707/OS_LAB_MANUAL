@@ -1,8 +1,9 @@
+// LRU.c
 #include <stdio.h>
 
 typedef struct {
     int val;   
-    int rate;  // Last used time (for LRU)
+    int rate; 
 } LRU;
 
 int findLeastRecentlyUsed(LRU cache[], int m) {
