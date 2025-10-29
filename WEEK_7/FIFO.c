@@ -1,21 +1,20 @@
-// FIFO.c
 #include <stdio.h>
 
 int main()
 {
     int n;
-    printf("enter the size of the array ");
+    printf("Enter the size of the array: ");
     scanf("%d", &n);
 
     int original[n];
 
     int m;
-    printf("enter the size of the lru");
+    printf("Enter the size of the FIFO cache: ");
     scanf("%d", &m);
 
     int lru[m];
 
-    printf("enter the elements in the array : \n");
+    printf("Enter the elements in the array:\n");
     for (int i = 0; i < n; i++)
     {
         scanf("%d", &original[i]);
@@ -25,9 +24,10 @@ int main()
     int miss = 0;
     int k = 0;
 
+    // initialize cache as empty (-1 means empty)
     for (int i = 0; i < m; i++)
     {
-        lru[i] = 0;
+        lru[i] = -1;
     }
 
     for (int i = 0; i < n; i++)
@@ -35,42 +35,49 @@ int main()
         int val = original[i];
         int found = 0;
 
-        int arr[m];
-        for (int h = 0; h < m; h++)
-        {
-            arr[h] = lru[h];
-        }
-
-        printf("pintinf the lru chache for %d :\n", i);
+        printf("\nBefore accessing %d, cache state: ", val);
         for (int t = 0; t < m; t++)
         {
-            printf("%d ", arr[t]);
+            if (lru[t] == -1)
+                printf("_ ");
+            else
+                printf("%d ", lru[t]);
         }
         printf("\n");
 
+        // Check if page is already in cache (hit)
         for (int j = 0; j < m; j++)
         {
-            if (val == lru[j] && lru[0] != 0)
+            if (val == lru[j])
             {
                 hit++;
                 found = 1;
                 break;
             }
         }
+
+        // If not found, it's a miss → replace using FIFO
         if (found == 0)
         {
             miss++;
-            k = k % m;
             lru[k] = val;
-            k++;
+            k = (k + 1) % m; // move FIFO pointer circularly
         }
+
+        printf("After accessing %d, cache: ", val);
+        for (int t = 0; t < m; t++)
+        {
+            if (lru[t] == -1)
+                printf("_ ");
+            else
+                printf("%d ", lru[t]);
+        }
+        printf("\n");
     }
 
-    printf("performing lru cache:\n");
-
-    printf("hit : %d\n", hit);
-    printf("miss : %d\n", miss);
+    printf("\nFinal Results:\n");
+    printf("Hits : %d\n", hit);
+    printf("Miss : %d\n", miss);
 
     return 0;
 }
-
