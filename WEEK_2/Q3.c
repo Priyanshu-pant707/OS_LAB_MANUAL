@@ -16,6 +16,7 @@ int main() {
     char friendLine[MAX_LINE_LENGTH];
 
     // Step 1: Create and write your details to "mydetails.txt"
+    
     myFile = fopen("mydetails.txt", "w");
     if (myFile == NULL) {
         perror("Failed to create mydetails.txt");
