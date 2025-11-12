@@ -5,26 +5,24 @@
 #define HIGH 199
 
 int main() {
-    int queue[20];
-    int head, max, q_size, temp, sum;
-    int dloc; // location of disk head in the array
+    int queue[20], head, q_size, temp, sum = 0;
+    int dloc; // head index in the queue
 
-    printf("Input number of disk locations: ");
+    printf("Enter number of disk requests: ");
     scanf("%d", &q_size);
 
     printf("Enter head position: ");
     scanf("%d", &head);
 
-    printf("Input elements into disk queue:\n");
+    printf("Enter disk requests:\n");
     for (int i = 0; i < q_size; i++) {
         scanf("%d", &queue[i]);
     }
 
-    // Add read/write head into queue
+    // Add head to the queue and sort
     queue[q_size] = head;
     q_size++;
 
-    // Sort the array
     for (int i = 0; i < q_size; i++) {
         for (int j = i + 1; j < q_size; j++) {
             if (queue[i] > queue[j]) {
@@ -35,11 +33,9 @@ int main() {
         }
     }
 
-    max = queue[q_size - 1];
-
-    // Find head location in sorted queue
+    // Find head index
     for (int i = 0; i < q_size; i++) {
-        if (head == queue[i]) {
+        if (queue[i] == head) {
             dloc = i;
             break;
         }
@@ -47,27 +43,25 @@ int main() {
 
     printf("\nDisk sequence (SCAN order):\n");
 
-    // Determine direction: move toward lower end first or higher end
-    if (abs(head - LOW) <= abs(head - HIGH)) {
-        // Move toward LOW end first
-        for (int j = dloc; j >= 0; j--) {
-            printf("%d --> ", queue[j]);
-        }
-        for (int j = dloc + 1; j < q_size; j++) {
-            printf("%d --> ", queue[j]);
-        }
-    } else {
-        // Move toward HIGH end first
-        for (int j = dloc + 1; j < q_size; j++) {
-            printf("%d --> ", queue[j]);
-        }
-        for (int j = dloc; j >= 0; j--) {
-            printf("%d --> ", queue[j]);
-        }
+    // Assuming SCAN moves toward HIGH end first
+    for (int i = dloc; i < q_size; i++) {
+        printf("%d --> ", queue[i]);
     }
 
-    sum = head + max;  // This is not actual seek time; just a placeholder sum
-    printf("\nTotal head movement (approx): %d\n", sum);
+    // Go till the highest cylinder (199)
+    if (queue[q_size - 1] != HIGH) {
+        printf("%d --> ", HIGH);
+    }
 
+    // Then reverse direction and move toward LOW end
+    for (int i = dloc - 1; i >= 0; i--) {
+        printf("%d --> ", queue[i]);
+    }
+
+    // Calculate total seek movement
+    // Move from head → highest request → HIGH → lowest request
+    sum = (HIGH - head) + (HIGH - queue[0]);
+
+    printf("\nTotal seek movement: %d\n", sum);
     return 0;
 }

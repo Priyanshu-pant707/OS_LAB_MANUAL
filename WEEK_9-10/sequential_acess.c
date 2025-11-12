@@ -14,7 +14,7 @@ int main()
     scanf("%d", &n);
 
     array arr[n];
-    int memoryblock[100] = {0}; 
+    int memoryblock[100] = {0};
     for (int i = 0; i < n; i++)
     {
         printf("\nEnter process name: ");
@@ -57,13 +57,15 @@ int main()
         }
 
         printf(" Allocated memory to process %s from index %d to %d.\n",
-               arr[i].process_name, start, start + length  );
+               arr[i].process_name, start, start + length);
     }
 
     printf("\nMemory status (1 = allocated, 0 = free):\n");
     for (int i = 0; i < 100; i++)
     {
         printf("%d ", memoryblock[i]);
+        if ((i + 1) % 10 == 0) // har 10 blocks ke baad new line
+            printf("\n");
     }
 
     return 0;
